@@ -6,7 +6,10 @@
 
 Educational Webapp Project with Alex Gittemeier, Tom Gittemeier, Dan Telle, and Steve Telle
 
+## Resources
 
-## Useful Resources
+Space for rent.
+
+## Possibly Useful Reference
  - [Goodwill Omaha API](https://github.com/khart0012/goodwill-omaha-2020-api/) A project Alex did for school that used Python flask and SQLAlchemy
  

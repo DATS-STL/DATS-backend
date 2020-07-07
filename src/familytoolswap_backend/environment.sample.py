@@ -1,0 +1,4 @@
+POSTGRES_HOST = "localhost"
+POSTGRES_USER = "alexg"
+POSTGRES_PASSWORD = "classic"
+POSTGRES_DATABASE = "dats"

@@ -1,3 +1,3 @@
-import os
+from src.familytoolswap_backend import app
 
-os.system("gunicorn src.familytoolswap_backend:app")
+app.run()

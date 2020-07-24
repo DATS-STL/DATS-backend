@@ -77,10 +77,10 @@ def fetch_all_rows():
 @app.route("/twotables")
 def twotables():
 	cursor = postgres.cursor()
-	cursor.execute("SELECT * FROM tool_inventory JOIN owner ON tool_inventory.id = owner.owner_id")
+	cursor.execute("SELECT id, name, description FROM tool_inventory JOIN owner ON tool_inventory.id = owner.owner_id")
 
 	jaysonresults=[]
-	for * in cursor.fetchall():
+	for id, name, description in cursor.fetchall():
 		print(description)
 		row = {
 			"id": id,
@@ -89,5 +89,13 @@ def twotables():
 		}
 		jaysonresults.append(row)
 	return jsonify(jaysonresults)
+
+
+#@app.route("/customer/history/year/<year>", methods=["GET"])
+
+@app.route("/tool_search/<desc>")
+def tool_search(desc):
+	cursor = postgres.cursor()
+	cursor.execute("SELECT id, name, description FROM tool_inventory JOIN owner ON tool_inventory.id = owner.owner_id WHERE description = '" + desc +"'")
 
 

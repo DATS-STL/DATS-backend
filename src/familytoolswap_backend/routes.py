@@ -93,9 +93,23 @@ def twotables():
 
 #@app.route("/customer/history/year/<year>", methods=["GET"])
 
-@app.route("/tool_search/<desc>")
-def tool_search(desc):
+@app.route("/tool_search/<description>/<type>")
+def tool_search(description, type):
+	# tool_search_sql = "SELECT id, name, description FROM tool_inventory JOIN owner ON tool_inventory.id = owner.owner_id WHERE description = '" + description +"'"
+	# tool_search_sql = f"SELECT id, name, description FROM tool_inventory JOIN owner ON tool_inventory.id = owner.owner_id WHERE description = '{ description }'"
+	tool_search_sql = "SELECT id, name, description, type FROM tool_inventory JOIN owner ON tool_inventory.id = owner.owner_id WHERE description = %s and type = %s"
 	cursor = postgres.cursor()
-	cursor.execute("SELECT id, name, description FROM tool_inventory JOIN owner ON tool_inventory.id = owner.owner_id WHERE description = '" + desc +"'")
+	cursor.execute(tool_search_sql, [description, type])
+	jaysonresults=[]
+	for id, name, description, type in cursor.fetchall():
+		print(description)
+		row = {
+			"id": id,
+			"name": name,
+			"description": description,
+			"type": type
+		}
+		jaysonresults.append(row)
+	return jsonify(jaysonresults)
 
 

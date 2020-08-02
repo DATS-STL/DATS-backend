@@ -3,8 +3,7 @@ Copyright 2020, Alex Gittemeier, Tom Gittemeier, Dan Telle, Steve Telle.
 Licensed under GPLv3.0.
 '''
 from flask import jsonify
-from . import app, postgres
-
+from .. import app, postgres
 
 @app.route('/')
 def get_root():
@@ -30,7 +29,7 @@ def inventory_table():
 	id, name, description = cursor.fetchone()
 	return f'The id is {id}. The name is {name}. The description is {description}'
 
-	
+
 
 @app.route("/sample")
 def get_sample():
@@ -96,10 +95,10 @@ def twotables():
 def tool_search(description, type):
 	# tool_search_sql = "SELECT id, name, description FROM tool_inventory JOIN owner ON tool_inventory.id = owner.owner_id WHERE description = '" + description +"'"
 	# tool_search_sql = f"SELECT id, name, description FROM tool_inventory JOIN owner ON tool_inventory.id = owner.owner_id WHERE description = '{ description }'"
-	tool_search_sql = "SELECT id, name, description, type" +
-	" FROM tool_inventory" +
-	" JOIN owner ON tool_inventory.id = owner.owner_id" +
-	" WHERE description = %s and type = %s"
+	tool_search_sql = ("SELECT id, name, description, type" +
+		" FROM tool_inventory" +
+		" JOIN owner ON tool_inventory.id = owner.owner_id" +
+		" WHERE description = %s and type = %s")
 	cursor = postgres.cursor()
 	cursor.execute(tool_search_sql, [description, type])
 	jaysonresults=[]

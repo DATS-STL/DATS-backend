@@ -29,4 +29,5 @@ else:
 
 app = Flask(__name__)
 
-from . import routes
+from .flasktutorial import routes
+from .user import routes

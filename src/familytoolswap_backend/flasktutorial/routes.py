@@ -95,10 +95,10 @@ def twotables():
 def tool_search(description, type):
 	# tool_search_sql = "SELECT id, name, description FROM tool_inventory JOIN owner ON tool_inventory.id = owner.owner_id WHERE description = '" + description +"'"
 	# tool_search_sql = f"SELECT id, name, description FROM tool_inventory JOIN owner ON tool_inventory.id = owner.owner_id WHERE description = '{ description }'"
-	tool_search_sql = "SELECT id, name, description, type" +
-	" FROM tool_inventory" +
-	" JOIN owner ON tool_inventory.id = owner.owner_id" +
-	" WHERE description = %s and type = %s"
+	tool_search_sql = ("SELECT id, name, description, type" +
+		" FROM tool_inventory" +
+		" JOIN owner ON tool_inventory.id = owner.owner_id" +
+		" WHERE description = %s and type = %s")
 	cursor = postgres.cursor()
 	cursor.execute(tool_search_sql, [description, type])
 	jaysonresults=[]

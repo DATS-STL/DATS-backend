@@ -3,8 +3,7 @@ Copyright 2020, Alex Gittemeier, Tom Gittemeier, Dan Telle, Steve Telle.
 Licensed under GPLv3.0.
 '''
 from flask import jsonify
-from . import app, postgres
-
+from .. import app, postgres
 
 @app.route('/')
 def get_root():
@@ -30,7 +29,7 @@ def inventory_table():
 	id, name, description = cursor.fetchone()
 	return f'The id is {id}. The name is {name}. The description is {description}'
 
-	
+
 
 @app.route("/sample")
 def get_sample():

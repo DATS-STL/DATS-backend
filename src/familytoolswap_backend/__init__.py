@@ -30,3 +30,4 @@ else:
 app = Flask(__name__)
 
 from .flasktutorial import routes
+from .user import routes

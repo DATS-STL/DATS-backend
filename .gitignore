@@ -131,3 +131,6 @@ dmypy.json
 # Custom excludes
 .vscode/
 environment.py
+
+# Workspace
+*.code-workspace

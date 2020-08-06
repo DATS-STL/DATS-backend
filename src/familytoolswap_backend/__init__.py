@@ -8,6 +8,7 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import psycopg2
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -34,6 +35,11 @@ else:
 
 sa = SQLAlchemy(app)
 
+cors = CORS(app)
+
+app.config['CORS_HEADERS'] = 'Content-Type'
+
 # List all files containing @app.route() annotated functions
 from .flasktutorial import routes
 from .user import routes
+

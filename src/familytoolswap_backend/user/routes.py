@@ -5,8 +5,10 @@ Licensed under GPLv3.0.
 from flask import jsonify
 from .. import app, postgres
 from ..parse_request import parse_request
+from flask_cors import cross_origin
 
 @app.route("/user/authorize", methods=["POST"])
+@cross_origin()
 def user_authorize():
 	username, password = parse_request("username", "password")
 

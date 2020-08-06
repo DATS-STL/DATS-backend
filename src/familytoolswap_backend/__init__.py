@@ -6,7 +6,11 @@ Licensed under GPLv3.0.
 '''
 import os
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 import psycopg2
+
+app = Flask(__name__)
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # Valid values of APP_ENVIRONMENT are as follows
 # - "production_cloud" when hosted at https://familytoolswap-api.herokuapp.com
@@ -16,18 +20,20 @@ import psycopg2
 if "APP_ENVIRONMENT" in os.environ:
 	app_environment = os.environ["APP_ENVIRONMENT"]
 	postgres = psycopg2.connect(os.environ["DATABASE_URL"], sslmode="require")
+	app.config["SQLALCHEMY_DATABASE_URI"] = os.environ["DATABASE_URL"]
 else:
 	app_environment = "local"
 
 	from .environment import (
 			POSTGRES_HOST, POSTGRES_DATABASE,
 			POSTGRES_USER, POSTGRES_PASSWORD)
-	postgres = psycopg2.connect(
-			host = POSTGRES_HOST, database = POSTGRES_DATABASE,
-			user = POSTGRES_USER, password = POSTGRES_PASSWORD)
+	database_url = f"postgres://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}/{POSTGRES_DATABASE}"
 
+	postgres = psycopg2.connect(database_url)
+	app.config["SQLALCHEMY_DATABASE_URI"] = database_url
 
-app = Flask(__name__)
+sa = SQLAlchemy(app)
 
+# List all files containing @app.route() annotated functions
 from .flasktutorial import routes
 from .user import routes

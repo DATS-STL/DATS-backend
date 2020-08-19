@@ -35,6 +35,7 @@ from src.familytoolswap_backend import app, sa
 # You must add models you want part of the migration here
 from src.familytoolswap_backend.models.user import User
 from src.familytoolswap_backend.models.messages import Messages
+from src.familytoolswap_backend.models.tool import Tool
 
 migrate = Migrate(app, sa)
 manager = Manager(app)

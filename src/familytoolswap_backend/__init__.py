@@ -42,4 +42,6 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 # List all files containing @app.route() annotated functions
 from .flasktutorial import routes
 from .user import routes
+from .tool import routes
+
 

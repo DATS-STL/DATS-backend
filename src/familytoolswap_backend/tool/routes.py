@@ -13,7 +13,8 @@ from flask_cors import cross_origin
 def post_tools():
     user_id, type, name, description, brand = parse_request("user_id", "type", "name", "description", "brand")
     cursor = postgres.cursor()
-    cursor.execute('INSERT INTO "tool" (user_id, type, name, description, brand) VALUES (%s, %s, %s, %s)' , [user_id, type, name, description, brand])
+    cursor.execute('INSERT INTO "tool" ("user_id", "type", "name", "description", "brand") VALUES (%s, %s, %s, %s, %s)' , [user_id, type, name, description, brand])
+    postgres.commit()
     
     return jsonify({"authorization": None})
 
@@ -35,4 +36,30 @@ def tools():
         }
         jaysonresults.append(row)
     return jsonify(jaysonresults)
+
+
+# Route to update tool table
+
+@app.route('/tools', methods= ["PUT"])
+@cross_origin()
+def put_tools():
+    user_id, type, name, description, brand = parse_request("user_id", "type", "name", "description", "brand")
+    cursor = postgres.cursor()
+    cursor.execute('UPDATE "tool" SET ("user_id", "type", "name", "description", "brand") = (%s, %s, %s, %s, %s)' , [user_id, type, name, description, brand])
+    postgres.commit()
     
+    return jsonify({"authorization": None})
+
+
+# Route to delete information in tool table
+
+@app.route('/tools', methods= ["DELETE"])
+@cross_origin()
+def delete_tools():
+    user_id, type, name, description, brand = parse_request("user_id", "type", "name", "description", "brand")
+    cursor = postgres.cursor()
+    cursor.execute('DELETE FROM "tool" WHERE ("user_id", "type", "name", "description", "brand") = (%s, %s, %s, %s, %s)' , [user_id, type, name, description, brand])
+    postgres.commit()
+    
+    return jsonify({"authorization": None})
+

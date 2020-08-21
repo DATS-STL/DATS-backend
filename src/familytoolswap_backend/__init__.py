@@ -31,6 +31,7 @@ else:
 	database_url = f"postgres://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}/{POSTGRES_DATABASE}"
 
 	postgres = psycopg2.connect(database_url)
+	postgres.autocommit = True
 	app.config["SQLALCHEMY_DATABASE_URI"] = database_url
 
 sa = SQLAlchemy(app)
@@ -43,5 +44,3 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 from .flasktutorial import routes
 from .user import routes
 from .tool import routes
-
-

@@ -13,10 +13,10 @@ from flask_cors import cross_origin
 def post_tools():
     user_id, type, name, description, brand = parse_request("user_id", "type", "name", "description", "brand")
     cursor = postgres.cursor()
-    cursor.execute('INSERT INTO "tool" ("user_id", "type", "name", "description", "brand") VALUES (%s, %s, %s, %s, %s)' , [user_id, type, name, description, brand])
+    cursor.execute('INSERT INTO "tool" ("user_id", "type", "name", "description", "brand") VALUES (%s, %s, %s, %s, %s) RETURNING tool_id' , [user_id, type, name, description, brand])
     postgres.commit()
-    
-    return jsonify({"authorization": None})
+    toolid = cursor.fetchone()[0]
+    return jsonify({"tool_id": toolid})
 
 # Route to get tool
 @app.route('/tools')
@@ -53,12 +53,11 @@ def put_tools():
 
 # Route to delete information in tool table
 
-@app.route('/tools', methods= ["DELETE"])
+@app.route('/tools/<tool_id>', methods= ["DELETE"])
 @cross_origin()
-def delete_tools():
-    user_id, type, name, description, brand = parse_request("user_id", "type", "name", "description", "brand")
+def delete_tools(tool_id):
     cursor = postgres.cursor()
-    cursor.execute('DELETE FROM "tool" WHERE ("user_id", "type", "name", "description", "brand") = (%s, %s, %s, %s, %s)' , [user_id, type, name, description, brand])
+    cursor.execute('DELETE FROM "tool" WHERE ("tool_id") = (%s)' , [tool_id])
     postgres.commit()
     
     return jsonify({"authorization": None})

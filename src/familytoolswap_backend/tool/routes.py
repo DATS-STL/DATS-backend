@@ -21,7 +21,7 @@ def post_tools():
 # Route to get tool
 @app.route('/tools')
 @cross_origin()
-def tools():
+def get_all_tools():
     cursor = postgres.cursor()
     cursor.execute('SELECT tool_id, user_id, type, name, description, brand FROM "tool"')
     jaysonresults=[]
@@ -62,3 +62,21 @@ def delete_tools(tool_id):
     
     return jsonify({"authorization": None})
 
+
+# Route to return one tool with tool_id
+
+@app.route('/tools/<tool_id>')
+@cross_origin()
+def get_one_tool(tool_id):
+    cursor = postgres.cursor()
+    cursor.execute('SELECT tool_id, user_id, type, name, description, brand FROM "tool" WHERE ("tool_id") = (%s)', [tool_id])
+    tool_id, user_id, type, name, description, brand = cursor.fetchone()
+    row = {
+        "tool_id": tool_id,
+        "user_id": user_id,
+        "type": type,
+        "name": name,
+        "description": description,
+        "brand": brand
+    }
+    return jsonify(row)
